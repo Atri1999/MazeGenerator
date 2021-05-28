@@ -1,4 +1,5 @@
 import random
+import drawMaze as dm
 
 class Node:
     def __init__(self) -> None:
@@ -23,12 +24,12 @@ class Maze:
         #print(l)
         if x==0:
             l.remove([x-1,y])
-        if x==self.WIDTH-1:
+        if x>=self.WIDTH-1:
             l.remove([x+1,y])
         
         if y==0:
             l.remove([x,y-1])
-        if y==self.HEIGHT-1:
+        if y>=self.HEIGHT-1:
             l.remove([x,y+1])
         #print(l)
         #print(len(l))
@@ -56,7 +57,7 @@ class Maze:
 
     def makeMaze(self,x,y):
         self.Platform[x][y].value=1
-        
+        dm.drawCube(x,y)
         #self.printPlatform()
         node=self.chooseRandom(x,y)
         #print(node)
@@ -64,7 +65,8 @@ class Maze:
             #print(node[0],node[1])
             self.Platform[x][y].connected.append(node)
             self.Platform[node[0]][node[1]].connected.append([x,y])
-            self.printPlatform()
+            dm.drawfill(x,y,node[0],node[1])
+            #self.printPlatform()
             self.makeMaze(node[0],node[1])
             node=self.chooseRandom(x,y)
 
