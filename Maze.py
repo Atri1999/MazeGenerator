@@ -6,6 +6,7 @@ class Node:
         self.value=0
         self.visited=False
         self.connected=[]
+        self.taken=False
 
 class Maze:
     def __init__(self,width,height) -> None:
@@ -76,13 +77,41 @@ class Maze:
     def printPlatform(self):
         for rows in self.Platform:
             for column in rows:
-                print(column.value,end=" ")
+                print(column.value,column.connected,end=" ")
                 #print(column.connected,end=" ")
             print()
         print()
 
-    def tempFunc(self,x,y):
-        self.Platform[x][y].value=1
+    def depthFirstSearch(self,src_x,src_y,des_x,des_y):
+        stack=[]
+        visited=[]         
+        visited.append([src_x,src_y])
+        dm.drawCube(src_x,src_y,color=(100,0,0))
+        stack.append([src_x,src_y])
+    
+        while len(stack)!=0:
+            node=stack[-1]
+            if node==[des_x,des_y]:
+                dm.drawDFS(stack)
+                break
+
+            for i in range(len(self.Platform[node[0]][node[1]].connected)):
+                k=self.Platform[node[0]][node[1]].connected[i]
+               
+                if (k not in visited):
+                    visited.append([k[0],k[1]])
+                    dm.drawCube(k[0],k[1],color=(100,0,0))
+                    stack.append([k[0],k[1]])
+                    break
+            else:
+                stack.pop(-1) 
+                  
+                
+    
+
+
+
+
 
 
 if __name__=="__main__":
@@ -94,6 +123,8 @@ if __name__=="__main__":
     #maze.printPlatform()
     #print(maze.chooseRandom(0,0))
     maze.makeMaze(3,2)
+    maze.printPlatform()
+    maze.depthFirstSearch(0,0,4,4)
     maze.printPlatform()
 
 

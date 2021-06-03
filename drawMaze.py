@@ -11,7 +11,7 @@ BLACK=(0,0,0)
 win=pygame.display.set_mode(((W//WIDTH)*(W//WIDTH),(H//HEIGHT)*(H//HEIGHT)))                    
 pygame.display.set_caption("Maze")
 clock=pygame.time.Clock()
-FPS=120
+FPS=1
 
 def drawfill(x,y,x1,y1):
     if x==x1:
@@ -36,6 +36,7 @@ def drawfill(x,y,x1,y1):
     pygame.display.update()
 
 def drawCube(x,y,color=(200,200,200)):
+    pygame.time.delay(20)
     x1,y1=(x)*(Grid_Width),(y)*(Grid_Height)
     #x2,y2=(x+1)*(Grid_Width),(y+1)*(Grid_Height)
     #pygame.draw.rect(win,(120,0,0),pygame.Rect(x1,y1,Grid_Width,Grid_Height),2)
@@ -51,6 +52,13 @@ def drawGrid(color=(0,128,0)):
         y=i*(Grid_Height)
         pygame.draw.line(win,color,(0,y),(W,y))
     pygame.display.update()
+
+def drawDFS(stack):
+    pygame.time.delay(500)
+    for node in stack:
+        #print(node)
+        drawCube(node[0],node[1],color=(10,100,10))
+        
 
 def main():
     run=True
@@ -79,6 +87,8 @@ if __name__=="__main__":
     #drawfill(2,3,1,3)
     maze.makeMaze(int(random()*Grid_Width),int(random()*Grid_Height))    
     #drawCube(20,20,color=(120,0,0))
+    input()
+    maze.depthFirstSearch(0,0,Grid_Width-1,Grid_Height-1)
 
 
     main()
